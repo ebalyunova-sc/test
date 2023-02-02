@@ -1,11 +1,11 @@
 let number, r, k, numberStr; // где r - рубли, а k - копейки
 
-number = 1225; numberStr = number + ' - ';
+number = 11225; numberStr = number + ' - ';
 
 r = (number - number % 100) / 100;
 k = number % 100;
 
-if (r > 10 && r < 20) {
+if ((r % 100 > 10) && (r % 100 < 20)) {
     numberStr += r + ' рублей ';
 }
 else {
@@ -21,7 +21,7 @@ else {
     }
 }
 
-if (k > 10 && k < 20) {
+if ((k % 100 > 10) && (k % 100 < 20)) {
     numberStr += k + ' копеек';
 }
 else {
