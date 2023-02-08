@@ -69,20 +69,56 @@ function response() {
             enter(1, 1, 'o');
         }
         else {
-            if (box[1][0] === 'x') {
-                enter(1, 2, 'o');
-            }
-            if (box[0][1] === 'x') {
-                enter(2, 1, 'o');
-            }
-            if (box[2][1] === 'x') {
-                enter(0, 1, 'o');
-            }
-            if (box[1][2] === 'x') {
-                enter(1, 0, 'o');
-            }
+            responseSide();
         }
     }
 
+    if (move === 4) {
+        if (box[1][1] === 'x') {
+            if (box[0][0] === 'x' || box[0][2] === 'x' || box[2][2] === 'x') {
+                if (enter(2, 2, 'o') === 0) {
+                    enter(0, 0, 'o');
+                }
+            }
+            else {
+                if (box[2][0] === 'o') {
+                    responseSide();
+                }
+                else {
+                    if (box[1][0] === 'x' || box[2][1] === 'x') {
+                        enter(2, 0, 'o');
+                    }
+                    else {
+                        enter(0, 2, 'o');
+                    }
+                }
+            }
+        }
+        else {
 
+        }
+    }
+}
+
+function responseSide() {
+    let x, y;
+    if (box[1][0] === 'x' || box[1][2] === 'x') {
+        x = 1;
+        if (box[1][0] === 'x') {
+            y = 0;
+        }
+        else {
+            y = 2;
+        }
+    }
+    else {
+        y = 1;
+        if (box[0][1] === 'x') {
+            x = 0;
+        }
+        else {
+            x = 2;
+        }
+    }
+    enter(x, y, 'o');
 }
