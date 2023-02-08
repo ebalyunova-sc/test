@@ -3,18 +3,19 @@
 let box = []
 let endGame = 0;
 let arr = [0, 0, 0, 2, 1, 1, 2, 0, 2, 2];
+let move;
 
-for (let i = 0; i < 3; i++) {
-    box[i] = [];
-    for (let j = 0; j < 3; j++) {
-        box[i][j] = ' ';
-    }
-}
+clear();
 
-for (let i = 1; i < 10; i++) {
-    if (i % 2 === 1) {
-
-    }
+while (endGame === 0) {
+    enter(1, 0, 'x');
+    getBox();
+    move++;
+    console.log();
+    response();
+    getBox();
+    move++;
+    endGame = 1;
 }
 
 function getBox() {
@@ -56,4 +57,32 @@ function clear() {
             box[i][j] = ' ';
         }
     }
+    move = 1;
+}
+
+function response() {
+    if (move === 2) {
+        if (box[1][1] === 'x') {
+            enter(2, 0, 'o');
+        }
+        else if (box[0][0] === 'x' || box[0][2] === 'x' || box[2][0] === 'x' || box[2][2] === 'x') {
+            enter(1, 1, 'o');
+        }
+        else {
+            if (box[1][0] === 'x') {
+                enter(1, 2, 'o');
+            }
+            if (box[0][1] === 'x') {
+                enter(2, 1, 'o');
+            }
+            if (box[2][1] === 'x') {
+                enter(0, 1, 'o');
+            }
+            if (box[1][2] === 'x') {
+                enter(1, 0, 'o');
+            }
+        }
+    }
+
+
 }
