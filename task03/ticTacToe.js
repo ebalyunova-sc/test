@@ -1,27 +1,62 @@
 // Крестики-Нолики. Реализовать игру Крестики-Нолики (консольный вариант)
 
-let box = []
-let endGame = 0;
-let arr = [0, 0, 0, 2, 1, 1, 2, 0, 2, 2];
-let move;
+let box = [], endGame, move;
+let arr1 = [], arr2 = [];
+arr1[1] = [2, 2]; arr1[3] = [0, 1]; arr1[5] = [1, 0]; arr1[7] = [2, 0]; arr1[9] = [2, 1];
+arr2[1] = [0, 0]; arr2[3] = [1, 0]; arr2[5] = [1, 1]; arr2[7] = [2, 1]; arr2[9] = [2, 2];
 
-clear();
+game(arr2);
+game(arr1);
 
-while (endGame === 0) {
-    enter(1, 0, 'x');
-    getBox();
-    move++;
-    console.log();
-    response();
-    getBox();
-    move++;
-    endGame = 1;
+
+function game(arr) {
+    clear();
+    while (endGame === 0) {
+        enter(arr[move][0], arr[move][1], 'x');
+        getBox();
+        if (check('x')) {
+            endGame = 1;
+            console.log('x winner!')
+            break;
+        }
+        else {
+            move++;
+        }
+
+        if (move === 10) {
+            console.log('dead heat')
+            break;
+        }
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (enter(i, j, 'o')) {
+                    i = 3;
+                    j = 3;
+                }
+            }
+        }
+        getBox();
+        if (check('o')) {
+            endGame = 1;
+            console.log('o winner!')
+            break;
+        }
+        else {
+            move++;
+        }
+    }
 }
 
-function getBox() {
+function clear() {
     for (let i = 0; i < 3; i++) {
-        console.log(box[i][0] + '|' + box[i][1] + '|' + box[i][2]);
+        box[i] = [];
+        for (let j = 0; j < 3; j++) {
+            box[i][j] = ' ';
+        }
     }
+    move = 1;
+    endGame = 0;
 }
 
 function enter(x, y, symbol) {
@@ -32,6 +67,13 @@ function enter(x, y, symbol) {
     else {
         return 0;
     }
+}
+
+function getBox() {
+    for (let i = 0; i < 3; i++) {
+        console.log(box[i][0] + '|' + box[i][1] + '|' + box[i][2]);
+    }
+    console.log();
 }
 
 function check(symbol) {
@@ -48,77 +90,4 @@ function check(symbol) {
         return 1;
     }
     return 0;
-}
-
-function clear() {
-    for (let i = 0; i < 3; i++) {
-        box[i] = [];
-        for (let j = 0; j < 3; j++) {
-            box[i][j] = ' ';
-        }
-    }
-    move = 1;
-}
-
-function response() {
-    if (move === 2) {
-        if (box[1][1] === 'x') {
-            enter(2, 0, 'o');
-        }
-        else if (box[0][0] === 'x' || box[0][2] === 'x' || box[2][0] === 'x' || box[2][2] === 'x') {
-            enter(1, 1, 'o');
-        }
-        else {
-            responseSide();
-        }
-    }
-
-    if (move === 4) {
-        if (box[1][1] === 'x') {
-            if (box[0][0] === 'x' || box[0][2] === 'x' || box[2][2] === 'x') {
-                if (enter(2, 2, 'o') === 0) {
-                    enter(0, 0, 'o');
-                }
-            }
-            else {
-                if (box[2][0] === 'o') {
-                    responseSide();
-                }
-                else {
-                    if (box[1][0] === 'x' || box[2][1] === 'x') {
-                        enter(2, 0, 'o');
-                    }
-                    else {
-                        enter(0, 2, 'o');
-                    }
-                }
-            }
-        }
-        else {
-
-        }
-    }
-}
-
-function responseSide() {
-    let x, y;
-    if (box[1][0] === 'x' || box[1][2] === 'x') {
-        x = 1;
-        if (box[1][0] === 'x') {
-            y = 0;
-        }
-        else {
-            y = 2;
-        }
-    }
-    else {
-        y = 1;
-        if (box[0][1] === 'x') {
-            x = 0;
-        }
-        else {
-            x = 2;
-        }
-    }
-    enter(x, y, 'o');
 }
