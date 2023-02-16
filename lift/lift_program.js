@@ -1,11 +1,24 @@
 //-----класс человек
 class Person {
-    constructor() {
-        this.current_floor = Math.round((Math.random()*8)) + 1;
-        this.desired_floor = Math.round((Math.random()*8)) + 1;
-        // изменение желаемого этажа, если при генерации текущий и желаемый этажи оказались одним этажем
-        while (this.desired_floor === this.current_floor) {
+    constructor(number_person, current_floor = 0, desired_floor = 0) {
+        this.number_person = number_person;
+
+        if (current_floor === 0) {
+            this.current_floor = Math.round((Math.random()*8)) + 1;
+        }
+        else {
+            this.current_floor = current_floor;
+        }
+
+        if (desired_floor === 0) {
             this.desired_floor = Math.round((Math.random()*8)) + 1;
+            // изменение желаемого этажа, если при генерации текущий и желаемый этажи оказались одним этажем
+            while (this.desired_floor === this.current_floor) {
+                this.desired_floor = Math.round((Math.random()*8)) + 1;
+            }
+        }
+        else {
+            this.desired_floor = desired_floor;
         }
         // direction === 1 - движение вверх, -1 - движение вниз, 0 - человек на нужном этаже
         if (this.current_floor < this.desired_floor) {
@@ -17,9 +30,7 @@ class Person {
     }
 
     str_person_info() {
-        let info ;
-        info = 'current floor - ' + this.current_floor + '\ndesired floor - ' + this.desired_floor + '\n';
-        return info
+        return 'number of person - ' + this.number_person + '\ncurrent floor - ' + this.current_floor + '\ndesired floor - ' + this.desired_floor + '\n';
     }
 
     set_current_floor(floor) {
@@ -28,6 +39,10 @@ class Person {
 
     set_direction(direction) {
         this.direction = direction;
+    }
+
+    get_number_person() {
+        return this.number_person;
     }
 
     get_current_floor() {
@@ -52,17 +67,17 @@ class Floor {
         this.people_go_up = [];
     }
 
-    add_person(Person) {
-        if (Person.get_desired_floor() === this.number_floor) {
-            Person.set_current_floor(this.number_floor);
-            Person.set_direction(0);
-            this.people_on_desired_floor.push(Person);
+    add_person(number_person, desired_floor) {
+        let person = new Person(number_person, this.number_floor, desired_floor);
+        if (desired_floor === this.number_floor) {
+            person.set_direction(0);
+            this.people_on_desired_floor.push(person);
         }
-        else if (Person.get_direction()) {
-            this.people_go_up.push(Person);
+        else if (person.get_direction() === 1) {
+            this.people_go_up.push(person);
         }
         else {
-            this.people_go_down.push(Person);
+            this.people_go_down.push(person);
         }
     }
 
@@ -119,8 +134,7 @@ class Building {
     constructor() {
         this.person = [];
         for (let i = 0; i < 100; i++) {
-            this.person[i] = new Person();
-            console.log(this.person[i].str_person_info());
+            this.person[i] = new Person((i + 1));
         }
 
         this.floor = [];
@@ -135,8 +149,9 @@ class Building {
         for (let n = 1; n <= 9; n++) {
             for (let i = 0; i < this.person.length; i++) {
                 if (this.person[i].get_current_floor() === n) {
-                    this.floor[i].add_person(this.person[i]);
+                    this.floor[n].add_person(this.person[i].get_number_person(), this.person[i].get_desired_floor());
                     this.person.splice(i, 1);
+                    i--;
                 }
             }
         }
@@ -163,9 +178,5 @@ class Building {
 //----- вызов классов и работа программы
 
 let building = new Building();
-
-
-
-//building.distribution_people_by_floor();
-
-//building.info_building();
+building.distribution_people_by_floor();
+building.info_building();
