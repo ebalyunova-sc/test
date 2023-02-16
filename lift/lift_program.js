@@ -20,7 +20,7 @@ class Person {
         else {
             this.desired_floor = desired_floor;
         }
-        // direction === 1 - движение вверх, -1 - движение вниз, 0 - человек на нужном этаже
+        // direction === 1 - движение вверх, -1 - движение вниз
         if (this.current_floor < this.desired_floor) {
             this.direction = 1;
         }
@@ -35,10 +35,6 @@ class Person {
 
     set_current_floor(floor) {
         this.current_floor = floor;
-    }
-
-    set_direction(direction) {
-        this.direction = direction;
     }
 
     get_number_person() {
@@ -70,7 +66,7 @@ class Floor {
     add_person(number_person, desired_floor) {
         let person = new Person(number_person, this.number_floor, desired_floor);
         if (desired_floor === this.number_floor) {
-            person.set_direction(0);
+            person.set_current_floor(this.number_floor);
             this.people_on_desired_floor.push(person);
         }
         else if (person.get_direction() === 1) {
@@ -81,8 +77,13 @@ class Floor {
         }
     }
 
-    delete_person(index) {
-
+    delete_person(direction) {
+        if (direction === 1) {
+            this.people_go_up.shift();
+        }
+        else {
+            this.people_go_down.shift();
+        }
     }
 }
 
@@ -90,7 +91,7 @@ class Floor {
 class Lift {
     constructor() {
         this.number_seats = 6;
-        this.person = [];
+        this.people = [];
         this.direction = 1;  // 1 - движение вверх, -1 - движение вниз
         this.current_floor = 1;
     }
@@ -99,24 +100,19 @@ class Lift {
         return this.number_seats;
     }
 
-    add_person(Person) {
-        if (this.number_seats > 0) {
-            this.person.push(Person);
-            this.number_seats--;
-            return 1;
-        }
-        else {
-            return 0;
-        }
+    get_direction() {
+        return this.direction;
+    }
+
+    add_person(number_person, desired_floor) {
+        let person = new Person(number_person, this.current_floor, desired_floor);
+        this.people.push(person);
+        this.number_seats--;
     }
 
     delete_person(index) {
-        this.person.splice(index, 1);
+        this.people.splice(index, 1);
         this.number_seats++;
-    }
-
-    check_direction() {
-        return this.direction;
     }
 
     change_direction() {
@@ -173,10 +169,14 @@ class Building {
             }
         }
     }
+
+    lift_start() {
+
+    }
 }
 
-//----- вызов классов и работа программы
 
+//----- вызов классов и работа программы
 let building = new Building();
 building.distribution_people_by_floor();
 building.info_building();
