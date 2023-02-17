@@ -29,10 +29,6 @@ class Person {
         }
     }
 
-    str_person_info() {
-        return 'number of person - ' + this.number_person + '\ncurrent floor - ' + this.current_floor + '\ndesired floor - ' + this.desired_floor + '\n';
-    }
-
     set_current_floor(floor) {
         this.current_floor = floor;
     }
@@ -51,6 +47,10 @@ class Person {
 
     get_direction() {
         return this.direction;
+    }
+
+    get_person_info() {
+        return 'number of person - ' + this.number_person + '\ncurrent floor - ' + this.current_floor + '\ndesired floor - ' + this.desired_floor + '\n';
     }
 }
 
@@ -91,9 +91,13 @@ class Floor {
 class Lift {
     constructor() {
         this.number_seats = 6;
-        this.people = [];
+        this.person = [];
         this.direction = 1;  // 1 - движение вверх, -1 - движение вниз
         this.current_floor = 1;
+    }
+
+    set_current_floor(current_floor) {
+        this.current_floor = current_floor;
     }
 
     get_number_seats() {
@@ -104,14 +108,18 @@ class Lift {
         return this.direction;
     }
 
+    get_current_floor() {
+        return this.current_floor;
+    }
+
     add_person(number_person, desired_floor) {
         let person = new Person(number_person, this.current_floor, desired_floor);
-        this.people.push(person);
+        this.person.push(person);
         this.number_seats--;
     }
 
     delete_person(index) {
-        this.people.splice(index, 1);
+        this.person.splice(index, 1);
         this.number_seats++;
     }
 
@@ -157,21 +165,64 @@ class Building {
         for (let n = 1; n <= 9; n++) {
             console.log(n);
             for (let i = 0; i < this.floor[n].people_on_desired_floor.length; i++) {
-                console.log(this.floor[n].people_on_desired_floor[i].str_person_info());
+                console.log(this.floor[n].people_on_desired_floor[i].get_person_info());
             }
             console.log('---')
             for (let i = 0; i < this.floor[n].people_go_up.length; i++) {
-                console.log(this.floor[n].people_go_up[i].str_person_info());
+                console.log(this.floor[n].people_go_up[i].get_person_info());
             }
             console.log('---')
             for (let i = 0; i < this.floor[n].people_go_down.length; i++) {
-                console.log(this.floor[n].people_go_down[i].str_person_info());
+                console.log(this.floor[n].people_go_down[i].get_person_info());
             }
         }
     }
 
     lift_start() {
+        let floors_empty = 0;
+        while (floors_empty === 0) {
+            // если лифт на 1м или 9м этажах, то направление меняется на "вверх" и "вниз" соответственно
+            this.lift.change_direction();
+            // выход пассажиров из лифта
+            if (this.lift.get_number_seats() !== 6) {
+                for (let i = 0; i < this.lift.person.length; i++) {
+                    if (this.lift.person[i].get_desired_floor() === this.lift.current_floor) {
+                        this.floor[this.lift.get_current_floor()].add_person(this.person[i].get_number_person(), this.person[i].get_desired_floor());
+                        this.lift.delete_person(i);
+                    }
+                }
+            }
+            // при пустом лифте проверка этажей на наличие людей
+            else {
 
+            }
+            //вход пассажиров в лифт
+            while (this.lift.get_number_seats() !== 0) {
+                // если лифт едет вверх
+                if ((this.lift.get_direction() === 1)) {
+                    if (this.floor[this.lift.get_current_floor()].people_go_up.length !== 0) {
+                        this.lift.add_person(this.floor[this.lift.get_current_floor()].people_go_up[0].number_person, this.floor[this.lift.get_current_floor()].people_go_up[0].get_desired_floor());
+                        this.floor[this.lift.get_current_floor()].delete_person(1);
+                    }
+                    else {
+                        break;
+                    }
+                }
+                // если лифт едет вниз
+                else {
+                    if (this.floor[this.lift.get_current_floor()].people_go_down.length !== 0) {
+                        this.lift.add_person(this.floor[this.lift.get_current_floor()].people_go_down[0].number_person, this.floor[this.lift.get_current_floor()].people_go_down[0].get_desired_floor());
+                        this.floor[this.lift.get_current_floor()].delete_person(-1);
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+            // изменение текущего этажа в соответствии с направлением
+            this.lift.set_current_floor(this.lift.get_current_floor() + this.lift.get_direction());
+        }
+        console.log('all people on desired floors.')
     }
 }
 
@@ -180,3 +231,5 @@ class Building {
 let building = new Building();
 building.distribution_people_by_floor();
 building.info_building();
+//building.lift_start();
+//building.info_building();

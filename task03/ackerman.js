@@ -3,9 +3,9 @@
 // поэтому ограничиться вычислением А(3, 3), А(3, n) или А(4, 2).
 
 let arr = [];
-for (let i = 0; i <= 3; i++) {
+for (let i = 0; i <= 4; i++) {
     arr[i] = [];
-    for (let j = 0; j <= 5; j++) {
+    for (let j = 0; j <= 4; j++) {
         arr[i][j] = null;
     }
 }
@@ -33,6 +33,6 @@ function ackerman(n, m) {
 }
 
 console.log(ackerman(2, 1));
-for (let i = 0; i <= 3; i++) {
+for (let i = 0; i <= 4; i++) {
     console.log(arr[i]);
 }
