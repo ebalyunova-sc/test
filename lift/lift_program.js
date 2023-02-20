@@ -50,7 +50,7 @@ class Person {
     }
 
     get_person_info() {
-        return 'number of person - ' + this.number_person + '\ncurrent floor - ' + this.current_floor + '\ndesired floor - ' + this.desired_floor + '\n';
+        return 'number of person - ' + this.number_person + '\n\tcurrent floor - ' + this.current_floor + '\n\tdesired floor - ' + this.desired_floor;
     }
 }
 
@@ -195,7 +195,7 @@ class Building {
 
     info_building() {
         for (let n = 1; n <= 9; n++) {
-            console.log(n);
+            console.log('\n' + n);
             for (let i = 0; i < this.floor[n].get_number_people_on_desired_floor(); i++) {
                 console.log(this.floor[n].get_people_on_desired_floor()[i].get_person_info());
             }
