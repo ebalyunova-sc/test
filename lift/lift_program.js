@@ -187,14 +187,38 @@ class Building {
             if (this.lift.get_number_seats() !== 6) {
                 for (let i = 0; i < this.lift.person.length; i++) {
                     if (this.lift.person[i].get_desired_floor() === this.lift.current_floor) {
-                        this.floor[this.lift.get_current_floor()].add_person(this.person[i].get_number_person(), this.person[i].get_desired_floor());
+                        this.floor[this.lift.get_current_floor()].add_person(this.lift.person[i].get_number_person(), this.lift.person[i].get_desired_floor());
                         this.lift.delete_person(i);
                     }
                 }
             }
             // при пустом лифте проверка этажей на наличие людей
             else {
-
+                let number_empty_floor = 0;
+                while (number_empty_floor < 14) {
+                    this.lift.change_direction();
+                    if (this.lift.get_direction() === 1) {
+                        if (this.floor[this.lift.get_current_floor()].people_go_up.length === 0) {
+                            number_empty_floor++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    else {
+                        if (this.floor[this.lift.get_current_floor()].people_go_down.length === 0) {
+                            number_empty_floor++;
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    this.lift.set_current_floor(this.lift.get_current_floor() + this.lift.get_direction());
+                }
+                if (number_empty_floor === 14) {
+                    floors_empty = 1;
+                    continue;
+                }
             }
             //вход пассажиров в лифт
             while (this.lift.get_number_seats() !== 0) {
@@ -231,5 +255,5 @@ class Building {
 let building = new Building();
 building.distribution_people_by_floor();
 building.info_building();
-//building.lift_start();
-//building.info_building();
+building.lift_start();
+building.info_building();
