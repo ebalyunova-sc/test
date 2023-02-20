@@ -1,7 +1,8 @@
-import Floor from "./Floor";
-import Lift from "./Lift";
+let Person = require('./Person.js')
+let Floor = require('./Floor.js')
+let Lift = require('./Lift.js')
 
-export default class Building {
+let Building = class {
     constructor() {
         this.person = [];
         for (let i = 0; i < 100; i++) {
@@ -120,3 +121,5 @@ export default class Building {
         console.log('all people on desired floors.')
     }
 }
+
+module.exports = Building;

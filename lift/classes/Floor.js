@@ -1,6 +1,6 @@
-import Person from "./Person";
+let Person = require('./Person.js')
 
-export default class Floor {
+let Floor = class {
     constructor(number) {
         this.number_floor = number;
         this.people_on_desired_floor = [];
@@ -55,3 +55,5 @@ export default class Floor {
         }
     }
 }
+
+module.exports = Floor;

@@ -1,4 +1,4 @@
-export default class Person {
+let Person = class {
     constructor(number_person, current_floor = 0, desired_floor = 0) {
         this.number_person = number_person;
 
@@ -49,6 +49,8 @@ export default class Person {
     }
 
     get_person_info() {
-        return 'number of person - ' + this.number_person + '\n\tcurrent floor - ' + this.current_floor + '\n\tdesired floor - ' + this.desired_floor;
+        return 'number of person - ' + this.number_person + '\n\tdesired floor - ' + this.desired_floor;
     }
 }
+
+module.exports = Person;

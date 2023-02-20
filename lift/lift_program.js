@@ -1,4 +1,4 @@
-import Building from "./classes/Building";
+let Building = require('./classes/Building.js')
 
 let building = new Building();
 building.distribution_people_by_floor();

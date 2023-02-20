@@ -1,6 +1,6 @@
-import Person from "./Person";
+let Person = require('./Person.js')
 
-export default class Lift {
+let Lift = class {
     constructor() {
         this.number_seats = 6;
         this.person = [];
@@ -52,3 +52,5 @@ export default class Lift {
         }
     }
 }
+
+module.exports = Lift;
