@@ -31,22 +31,8 @@ let Building = class {
 
     infoBuilding() {
         for (let n = 1; n <= 9; n++) {
-            console.log('\n' + n);
-            for (let i = 0; i < this.floor[n].getNumberPeopleOnDesiredFloor(); i++) {
-                console.log(this.floor[n].getPeopleOnDesiredFloor()[i].getPersonInfo());
-            }
-            if (this.floor[n].getNumberPeopleOnDesiredFloor() !== 0) {
-                console.log('---')
-            }
-            for (let i = 0; i < this.floor[n].getNumberPeopleGoUp(); i++) {
-                console.log(this.floor[n].getPeopleGoUp()[i].getPersonInfo());
-            }
-            if (this.floor[n].getNumberPeopleGoUp() !== 0) {
-                console.log('---')
-            }
-            for (let i = 0; i < this.floor[n].getNumberPeopleGoDown(); i++) {
-                console.log(this.floor[n].getPeopleGoDown()[i].getPersonInfo());
-            }
+            this.floor[n].infoFloor();
+            console.log('\n');
         }
     }
 

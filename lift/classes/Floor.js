@@ -8,10 +8,6 @@ let Floor = class {
         this.peopleGoUp = [];
     }
 
-    getPeopleOnDesiredFloor() {
-        return this.peopleOnDesiredFloor;
-    }
-
     getPeopleGoDown() {
         return this.peopleGoDown;
     }
@@ -52,6 +48,35 @@ let Floor = class {
         }
         else {
             this.peopleGoDown.shift();
+        }
+    }
+
+    infoFloor() {
+        let numberPeopleOnDesiredFloor = this.peopleOnDesiredFloor.length,
+            numberPeopleGoUp = this.peopleGoUp.length,
+            numberPeopleGoDown = this.peopleGoDown.length;
+
+        console.log('floor number - ' + this.floorNumber);
+        if (numberPeopleOnDesiredFloor !== 0) {
+            console.log('\n\tpeople on desired floor');
+            for (let i = 0; i < numberPeopleOnDesiredFloor; i++) {
+                console.log(this.peopleOnDesiredFloor[i].getPersonInfo());
+            }
+        }
+        if (numberPeopleGoUp !== 0) {
+            console.log('\n\tpeople go up')
+            for (let i = 0; i < numberPeopleGoUp; i++) {
+                console.log(this.peopleGoUp[i].getPersonInfo());
+            }
+        }
+        if (numberPeopleGoDown !== 0) {
+            console.log('\n\tpeople go down')
+            for (let i = 0; i < numberPeopleGoDown; i++) {
+                console.log(this.peopleGoDown[i].getPersonInfo());
+            }
+        }
+        if (numberPeopleOnDesiredFloor === 0 && numberPeopleGoUp === 0 && numberPeopleGoDown === 0) {
+            console.log('floor is empty')
         }
     }
 }
