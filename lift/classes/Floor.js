@@ -2,56 +2,56 @@ let Person = require('./Person.js')
 
 let Floor = class {
     constructor(number) {
-        this.number_floor = number;
-        this.people_on_desired_floor = [];
-        this.people_go_down = [];
-        this.people_go_up = [];
+        this.floorNumber = number;
+        this.peopleOnDesiredFloor = [];
+        this.peopleGoDown = [];
+        this.peopleGoUp = [];
     }
 
-    get_people_on_desired_floor() {
-        return this.people_on_desired_floor;
+    getPeopleOnDesiredFloor() {
+        return this.peopleOnDesiredFloor;
     }
 
-    get_people_go_down() {
-        return this.people_go_down;
+    getPeopleGoDown() {
+        return this.peopleGoDown;
     }
 
-    get_people_go_up() {
-        return this.people_go_up;
+    getPeopleGoUp() {
+        return this.peopleGoUp;
     }
 
-    get_number_people_on_desired_floor() {
-        return this.people_on_desired_floor.length;
+    getNumberPeopleOnDesiredFloor() {
+        return this.peopleOnDesiredFloor.length;
     }
 
-    get_number_people_go_down() {
-        return this.people_go_down.length;
+    getNumberPeopleGoDown() {
+        return this.peopleGoDown.length;
     }
 
-    get_number_people_go_up() {
-        return this.people_go_up.length;
+    getNumberPeopleGoUp() {
+        return this.peopleGoUp.length;
     }
 
-    add_person(number_person, desired_floor) {
-        let person = new Person(number_person, this.number_floor, desired_floor);
-        if (desired_floor === this.number_floor) {
-            person.set_current_floor(this.number_floor);
-            this.people_on_desired_floor.push(person);
+    addPerson(personNumber, desiredFloor) {
+        let person = new Person(personNumber, this.floorNumber, desiredFloor);
+        if (desiredFloor === this.floorNumber) {
+            person.setCurrentFloor(this.floorNumber);
+            this.peopleOnDesiredFloor.push(person);
         }
-        else if (person.get_direction() === 1) {
-            this.people_go_up.push(person);
+        else if (person.getDirection() === 1) {
+            this.peopleGoUp.push(person);
         }
         else {
-            this.people_go_down.push(person);
+            this.peopleGoDown.push(person);
         }
     }
 
-    delete_person(direction) {
+    deletePerson(direction) {
         if (direction === 1) {
-            this.people_go_up.shift();
+            this.peopleGoUp.shift();
         }
         else {
-            this.people_go_down.shift();
+            this.peopleGoDown.shift();
         }
     }
 }

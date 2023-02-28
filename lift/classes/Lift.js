@@ -2,52 +2,52 @@ let Person = require('./Person.js')
 
 let Lift = class {
     constructor() {
-        this.number_seats = 6;
+        this.numberSeats = 6;
         this.person = [];
         this.direction = 1;  // 1 - движение вверх, -1 - движение вниз
-        this.current_floor = 1;
+        this.currentFloor = 1;
     }
 
-    set_current_floor(current_floor) {
-        this.current_floor = current_floor;
+    setCurrentFloor(currentFloor) {
+        this.currentFloor = currentFloor;
     }
 
-    get_number_seats() {
-        return this.number_seats;
+    getNumberSeats() {
+        return this.numberSeats;
     }
 
-    get_person() {
+    getPerson() {
         return this.person;
     }
 
-    get_direction() {
+    getDirection() {
         return this.direction;
     }
 
-    get_current_floor() {
-        return this.current_floor;
+    getCurrentFloor() {
+        return this.currentFloor;
     }
 
-    get_number_people_in_lift() {
+    getNumberPeopleInLift() {
         return this.person.length;
     }
 
-    add_person(number_person, desired_floor) {
-        let person = new Person(number_person, this.current_floor, desired_floor);
+    addPerson(personNumber, desiredFloor) {
+        let person = new Person(personNumber, this.currentFloor, desiredFloor);
         this.person.push(person);
-        this.number_seats--;
+        this.numberSeats--;
     }
 
-    delete_person(index) {
+    deletePerson(index) {
         this.person.splice(index, 1);
-        this.number_seats++;
+        this.numberSeats++;
     }
 
-    change_direction() {
-        if (this.current_floor === 1 && this.direction === -1) {
+    changeDirection() {
+        if (this.currentFloor === 1 && this.direction === -1) {
             this.direction = 1;
         }
-        else if (this.current_floor === 9 && this.direction === 1) {
+        else if (this.currentFloor === 9 && this.direction === 1) {
             this.direction = -1;
         }
     }

@@ -17,11 +17,11 @@ let Building = class {
         this.lift = new Lift();
     }
 
-    distribution_people_by_floor() {
+    distributionPeopleByFloor() {
         for (let n = 1; n <= 9; n++) {
             for (let i = 0; i < this.person.length; i++) {
-                if (this.person[i].get_current_floor() === n) {
-                    this.floor[n].add_person(this.person[i].get_number_person(), this.person[i].get_desired_floor());
+                if (this.person[i].getCurrentFloor() === n) {
+                    this.floor[n].addPerson(this.person[i].getPersonNumber(), this.person[i].getDesiredFloor());
                     this.person.splice(i, 1);
                     i--;
                 }
@@ -29,76 +29,77 @@ let Building = class {
         }
     }
 
-    info_building() {
+    infoBuilding() {
         for (let n = 1; n <= 9; n++) {
             console.log('\n' + n);
-            for (let i = 0; i < this.floor[n].get_number_people_on_desired_floor(); i++) {
-                console.log(this.floor[n].get_people_on_desired_floor()[i].get_person_info());
+            for (let i = 0; i < this.floor[n].getNumberPeopleOnDesiredFloor(); i++) {
+                console.log(this.floor[n].getPeopleOnDesiredFloor()[i].getPersonInfo());
             }
-            if (this.floor[n].get_number_people_on_desired_floor() !== 0) {
+            if (this.floor[n].getNumberPeopleOnDesiredFloor() !== 0) {
                 console.log('---')
             }
-            for (let i = 0; i < this.floor[n].get_number_people_go_up(); i++) {
-                console.log(this.floor[n].get_people_go_up()[i].get_person_info());
+            for (let i = 0; i < this.floor[n].getNumberPeopleGoUp(); i++) {
+                console.log(this.floor[n].getPeopleGoUp()[i].getPersonInfo());
             }
-            if (this.floor[n].get_number_people_go_up() !== 0) {
+            if (this.floor[n].getNumberPeopleGoUp() !== 0) {
                 console.log('---')
             }
-            for (let i = 0; i < this.floor[n].get_number_people_go_down(); i++) {
-                console.log(this.floor[n].get_people_go_down()[i].get_person_info());
+            for (let i = 0; i < this.floor[n].getNumberPeopleGoDown(); i++) {
+                console.log(this.floor[n].getPeopleGoDown()[i].getPersonInfo());
             }
         }
     }
 
-    lift_start() {
-        let floors_empty = 0;
-        while (floors_empty === 0) {
+    liftStart() {
+        let floorsEmpty = 0;
+        while (floorsEmpty === 0) {
             // если лифт на 1м или 9м этажах, то направление меняется на "вверх" и "вниз" соответственно
-            this.lift.change_direction();
+            this.lift.changeDirection();
             // выход пассажиров из лифта
-            if (this.lift.get_number_seats() !== 6) {
-                for (let i = 0; i < this.lift.get_number_people_in_lift(); i++) {
-                    if (this.lift.get_person()[i].get_desired_floor() === this.lift.get_current_floor()) {
-                        this.floor[this.lift.get_current_floor()].add_person(this.lift.get_person()[i].get_number_person(), this.lift.get_person()[i].get_desired_floor());
-                        this.lift.delete_person(i);
+            if (this.lift.getNumberSeats() !== 6) {
+                for (let i = 0; i < this.lift.getNumberPeopleInLift(); i++) {
+                    if (this.lift.getPerson()[i].getDesiredFloor() === this.lift.getCurrentFloor()) {
+                        this.floor[this.lift.getCurrentFloor()]
+                            .addPerson(this.lift.getPerson()[i].getPersonNumber(), this.lift.getPerson()[i].getDesiredFloor());
+                        this.lift.deletePerson(i);
                     }
                 }
             }
             // при пустом лифте проверка этажей на наличие людей
             else {
-                let number_empty_floor = 0;
-                while (number_empty_floor < 14) {
-                    this.lift.change_direction();
-                    if (this.lift.get_direction() === 1) {
-                        if (this.floor[this.lift.get_current_floor()].get_number_people_go_up() === 0) {
-                            number_empty_floor++;
+                let numberEmptyFloor = 0;
+                while (numberEmptyFloor < 14) {
+                    this.lift.changeDirection();
+                    if (this.lift.getDirection() === 1) {
+                        if (this.floor[this.lift.getCurrentFloor()].getNumberPeopleGoUp() === 0) {
+                            numberEmptyFloor++;
                         }
                         else {
                             break;
                         }
                     }
                     else {
-                        if (this.floor[this.lift.get_current_floor()].get_number_people_go_down() === 0) {
-                            number_empty_floor++;
+                        if (this.floor[this.lift.getCurrentFloor()].getNumberPeopleGoDown() === 0) {
+                            numberEmptyFloor++;
                         }
                         else {
                             break;
                         }
                     }
-                    this.lift.set_current_floor(this.lift.get_current_floor() + this.lift.get_direction());
+                    this.lift.setCurrentFloor(this.lift.getCurrentFloor() + this.lift.getDirection());
                 }
-                if (number_empty_floor === 14) {
-                    floors_empty = 1;
+                if (numberEmptyFloor === 14) {
+                    floorsEmpty = 1;
                     continue;
                 }
             }
             //вход пассажиров в лифт
-            while (this.lift.get_number_seats() !== 0) {
+            while (this.lift.getNumberSeats() !== 0) {
                 // если лифт едет вверх
-                if ((this.lift.get_direction() === 1)) {
-                    if (this.floor[this.lift.get_current_floor()].get_number_people_go_up() !== 0) {
-                        this.lift.add_person(this.floor[this.lift.get_current_floor()].get_people_go_up()[0].get_number_person(), this.floor[this.lift.get_current_floor()].get_people_go_up()[0].get_desired_floor());
-                        this.floor[this.lift.get_current_floor()].delete_person(1);
+                if ((this.lift.getDirection() === 1)) {
+                    if (this.floor[this.lift.getCurrentFloor()].getNumberPeopleGoUp() !== 0) {
+                        this.lift.addPerson(this.floor[this.lift.getCurrentFloor()].getPeopleGoUp()[0].getPersonNumber(), this.floor[this.lift.getCurrentFloor()].getPeopleGoUp()[0].getDesiredFloor());
+                        this.floor[this.lift.getCurrentFloor()].deletePerson(1);
                     }
                     else {
                         break;
@@ -106,9 +107,9 @@ let Building = class {
                 }
                 // если лифт едет вниз
                 else {
-                    if (this.floor[this.lift.get_current_floor()].get_number_people_go_down() !== 0) {
-                        this.lift.add_person(this.floor[this.lift.get_current_floor()].get_people_go_down()[0].get_number_person(), this.floor[this.lift.get_current_floor()].get_people_go_down()[0].get_desired_floor());
-                        this.floor[this.lift.get_current_floor()].delete_person(-1);
+                    if (this.floor[this.lift.getCurrentFloor()].getNumberPeopleGoDown() !== 0) {
+                        this.lift.addPerson(this.floor[this.lift.getCurrentFloor()].getPeopleGoDown()[0].getPersonNumber(), this.floor[this.lift.getCurrentFloor()].getPeopleGoDown()[0].getDesiredFloor());
+                        this.floor[this.lift.getCurrentFloor()].deletePerson(-1);
                     }
                     else {
                         break;
@@ -116,7 +117,7 @@ let Building = class {
                 }
             }
             // изменение текущего этажа в соответствии с направлением
-            this.lift.set_current_floor(this.lift.get_current_floor() + this.lift.get_direction());
+            this.lift.setCurrentFloor(this.lift.getCurrentFloor() + this.lift.getDirection());
         }
         console.log('all people on desired floors.')
     }
