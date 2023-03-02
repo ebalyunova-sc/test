@@ -1,19 +1,22 @@
+let NUMBER_OF_FLOORS = require('../constants/numberOfFloors.js');
+
+
 let Person = class {
     constructor(personNumber, currentFloor = 0, desiredFloor = 0) {
         this.personNumber = personNumber;
 
         if (currentFloor === 0) {
-            this.currentFloor = Math.round((Math.random()*8)) + 1;
+            this.currentFloor = Math.round((Math.random()*(NUMBER_OF_FLOORS - 1))) + 1;
         }
         else {
             this.currentFloor = currentFloor;
         }
 
         if (desiredFloor === 0) {
-            this.desiredFloor = Math.round((Math.random()*8)) + 1;
+            this.desiredFloor = Math.round((Math.random()*(NUMBER_OF_FLOORS - 1))) + 1;
             // изменение желаемого этажа, если при генерации текущий и желаемый этажи оказались одним этажем
             while (this.desiredFloor === this.currentFloor) {
-                this.desiredFloor = Math.round((Math.random()*8)) + 1;
+                this.desiredFloor = Math.round((Math.random()*(NUMBER_OF_FLOORS - 1))) + 1;
             }
         }
         else {

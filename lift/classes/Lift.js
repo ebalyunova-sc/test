@@ -1,8 +1,12 @@
 let Person = require('./Person.js')
 
+let NUMBER_OF_FLOORS = require('../constants/numberOfFloors.js');
+let NUMBER_OF_SEATS = require('../constants/numberOfSeats.js');
+
+
 let Lift = class {
     constructor() {
-        this.numberSeats = 6;
+        this.numberSeats = NUMBER_OF_SEATS;
         this.person = [];
         this.direction = 1;  // 1 - движение вверх, -1 - движение вниз
         this.currentFloor = 1;
@@ -44,10 +48,10 @@ let Lift = class {
     }
 
     changeDirection() {
-        if (this.currentFloor === 1 && this.direction === -1) {
+        if (this.currentFloor === 1) {
             this.direction = 1;
         }
-        else if (this.currentFloor === 9 && this.direction === 1) {
+        else if (this.currentFloor === NUMBER_OF_FLOORS) {
             this.direction = -1;
         }
     }
