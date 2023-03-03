@@ -4,6 +4,7 @@ let Lift = require('./Lift.js');
 
 let NUMBER_OF_FLOORS = require('../constants/numberOfFloors.js');
 let NUMBER_OF_PEOPLE = require('../constants/numberOfPeople.js');
+let NUMBER_OF_SEATS = require('../constants/numberOfSeats.js');
 
 
 let Building = class {
@@ -56,12 +57,12 @@ let Building = class {
             let liftDirection = this.lift.getDirection();
 
             // выход пассажиров из лифта
-            if (this.lift.getNumberSeats() !== 6) {
+            if (this.lift.getNumberFreeSeats() !== NUMBER_OF_SEATS) {
                 for (let i = 0; i < this.lift.getNumberPeopleInLift(); i++) {
                     if (this.lift.getPerson()[i].getDesiredFloor() === currentLiftFloor) {
-                        this.floor[currentLiftFloor]
-                            .addPerson(this.lift.getPerson()[i].getPersonNumber(),
-                                this.lift.getPerson()[i].getDesiredFloor());
+                        this.floor[currentLiftFloor].addPerson(
+                            this.lift.getPerson()[i].getPersonNumber(),
+                            this.lift.getPerson()[i].getDesiredFloor());
                         this.lift.deletePerson(i);
                     }
                 }
@@ -90,7 +91,7 @@ let Building = class {
             }
 
             //вход пассажиров в лифт
-            while (this.lift.getNumberSeats() !== 0) {
+            while (this.lift.getNumberFreeSeats() !== 0) {
                 // если лифт едет вверх
                 if (liftDirection === 1) {
                     if (this.floor[currentLiftFloor].getNumberPeopleGoUp() !== 0) {

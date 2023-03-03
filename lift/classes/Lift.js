@@ -16,8 +16,8 @@ let Lift = class {
         this.currentFloor = currentFloor;
     }
 
-    getNumberSeats() {
-        return this.numberSeats;
+    getNumberFreeSeats() {
+        return (this.numberSeats - this.person.length);
     }
 
     getPerson() {
@@ -39,12 +39,10 @@ let Lift = class {
     addPerson(personNumber, desiredFloor) {
         let person = new Person(personNumber, this.currentFloor, desiredFloor);
         this.person.push(person);
-        this.numberSeats--;
     }
 
     deletePerson(index) {
         this.person.splice(index, 1);
-        this.numberSeats++;
     }
 
     changeDirection() {

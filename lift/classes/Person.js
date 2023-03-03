@@ -52,7 +52,8 @@ let Person = class {
     }
 
     getPersonInfo() {
-        return 'person number - ' + this.personNumber + '\tdesired floor - ' + this.desiredFloor;
+        return 'person number - ' + this.personNumber
+            + '\tdesired floor - ' + this.desiredFloor;
     }
 }
 
