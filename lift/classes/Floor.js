@@ -17,10 +17,6 @@ let Floor = class {
         return this.peopleGoUp[0];
     }
 
-    getNumberPeopleOnDesiredFloor() {
-        return this.peopleOnDesiredFloor.length;
-    }
-
     getNumberPeopleGoDown() {
         return this.peopleGoDown.length;
     }
